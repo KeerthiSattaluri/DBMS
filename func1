@@ -1,0 +1,54 @@
+﻿CREATE TABLE classroom1(roomno1 varchar(20) primary key,
+		       capacity varchar(20));
+
+INSERT INTO classroom1 VALUES('408','4');
+INSERT INTO classroom1 VALUES('201','3');
+
+	
+CREATE TABLE section(cid varchar(20) primary key,
+		     secid varchar(20),
+		     sem   varchar(20),
+		     yr    varchar(20));  
+
+ALTER TABLE section ADD roomno1 varchar(20) references classroom1;		  	
+
+INSERT INTO section VALUES('10','101','Even','3RD','A001');
+INSERT INTO section VALUES('20','102','Odd','3RD','A002');
+
+
+//1
+
+CREATE FUNCTION update_section(cid1 varchar(20),secid1 varchar(20),sem1 varchar(20),yr1 varchar(20),roomno1 varchar(20))
+returns void as
+'update section set cid=$1,secid=$2,sem=$3,yr=$4,roomno=$5 where roomno not in (select roomno from section where yr=$4);
+'language sql;
+
+CREATE TABLE takes1(  sid varchar(20) primary key,
+		     cid varchar(20) ,
+		     secid varchar(20) ,
+		     sem   varchar(20) ,
+		     yr    varchar(20) ,
+		     capacity varchar(20));  
+
+INSERT INTO takes1 VALUES('1','10','101','Even','3RD','10');
+INSERT INTO takes1 VALUES('2','11','102','Odd','3RD','12');
+
+//2 
+
+CREATE FUNCTION register(cid1 varchar(20),secid1 varchar(20),sem varchar(20), yr varchar(20))
+returns void as $$
+declare 
+   n integer default 0;
+   c integer default 0;
+ begin
+   select count(*) into n from takes1 where cid='$1' and secid='$2' and sem='$3' and yr='$4';
+   select capacity into c from classroom1 natural join section where cid=register.cid1;
+   if(n<c) then 
+    INSERT INTO takes VALUES(sid,cid1,sem1,yr1,null);
+   else
+  raise notice 'limt reached for course(%%%%)',$1,$2,$3,$4;
+   end if;
+   end;
+$$ language plpgsql;
+
+

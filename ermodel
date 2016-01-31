@@ -1,0 +1,61 @@
+﻿create table customer (cust_id varchar(20) primary key,
+                       firstname char(20),
+                       middlename char(20),
+                       lastname char(20),
+                       street varchar(20),
+                       city varchar(20),
+                       teleno varchar(20),
+                       travel_date date,
+                       travel_time time);
+
+create table teleno ( cust_id varchar(20) primary key,
+                      telephoneno varchar(20)); 
+
+create table air_ticket ( ticket_id varchar(20) ,
+			  flight_id varchar(20) ,
+			  duration time,
+			  seatno varchar(20),
+			  ticket_type varchar(20),
+			  status varchar(20),
+			  price int,
+			  booking_date date,
+			  booking_time time,
+			  primary key(ticket_id,flight_id));
+
+create table flight (flight_id varchar(20) references air_ticket,
+		     country varchar(20),
+		     dest varchar(20),
+		     dep_date date,
+		     dep_time time,
+		     arr_date date,
+		     arr_time time
+                     primary key(flight_id));
+
+ create table staff (staff_id varchar(20)primary key,
+		    sfirstname char(20),
+		    smiddlename char(20),
+		    slastname char(20),
+		    salary int,
+		    pos varchar(20));
+		
+create table airplane ( airplane_id varchar(20) primary key,
+			aname char(20),
+			repair varchar(20),
+			repair_date date,
+			repair_price int,
+			no_of_seats int);
+
+create table custstaff (cust_id varchar(20) references customer,
+                        staff_id varchar(20) references staff,
+                        primary key(cust_id,staff_id));
+
+
+
+
+//a. Retrieving all the customers who book ticket in ‘AF102’
+
+select all cust_id from customer,air_ticket where flight_id='AF102'; 
+
+ //b. Retrieve all flightid departing on 15/9/15 having a minimum of 60 booked tickets.
+ 
+select all flight_id from air_ticket,customer group by travel_date where travel_date='15-sep-2015' having count(ticket_id>=60);

@@ -1,0 +1,58 @@
+﻿CREATE TABLE Airplane6(Flight6_ID varchar(20) primary key,
+                      capacity  int,
+                      dep_date date);
+
+CREATE TABLE Flight6(ticket_ID varchar(20) primary key,
+                    Flight6_ID varchar(20) references Airplane6,
+                    duration varchar(20),
+                    seat_no  int,
+                    departure date,
+                    ticket_type varchar(20),
+                    booking_status varchar(20));
+
+//1
+
+CREATE FUNCTION Flight6_booking(ticket_ID1 varchar(20),Flight6_ID1 varchar(20),duration1 varchar(20),seat_no1 varchar(20),
+                               ticket_type1 varchar(20),booking_status1 varchar(20))
+returns int as $$
+declare 
+   n integer default 0;
+   c integer default 0;
+ begin
+   select count(*) into n from Flight6;
+   select capacity into c from Airplane6;
+   update Flight6 
+       set ticket_ID=ticket_ID1, 
+           Flight6_ID=Flight6_ID1,
+            duration=duration1,
+            seat_no=seat_no1, 
+            ticket_type=ticket_type1 ;
+   if(n<c) then 
+    update Flight6 set booking_status="Available" ;
+   return(1);
+   else
+   raise notice 'Could not enter';
+   end if;
+   return (-1); 
+   end;
+   	
+$$ language plpgsql;
+
+
+  //2 
+
+CREATE FUNCTION Cancel_booking(ticket_ID1 varchar(20))
+returns int as $$
+declare 
+   n integer default 0;
+ begin
+   if(Flight6.departure < 2-(Airplane6.dep_date)) then
+   delete from Flight6 where ticket_ID=ticket_ID1;
+   return(1);
+   else
+   raise notice 'Could not cancel';
+   end if;
+   return (0); 
+   end;
+$$ language plpgsql;
+  

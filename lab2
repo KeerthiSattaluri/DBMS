@@ -1,0 +1,193 @@
+﻿CREATE TABLE Dept100 (
+Dept100_Name varchar(80) PRIMARY KEY,
+Dept100_Room varchar(10),
+ContactNo varchar(20)
+);
+
+CREATE TABLE Faculty100 (
+Emp_ID varchar(80) PRIMARY KEY,
+Emp_Name char(20),
+Dept100_Name varchar(80) REFERENCES Dept100,
+Salary int,
+Doj date
+);
+
+CREATE TABLE Student100 (
+Student100_ID varchar(20) PRIMARY KEY,
+Student100_Name varchar(30),
+Gender char(10),
+Dept100_Name varchar(20) REFERENCES Dept100,
+Doj date
+);
+
+CREATE TABLE course2 (
+course2_Code varchar(20) PRIMARY KEY,
+course2_Title varchar(20),
+Credit int,
+Semester varchar(10),
+Yr int,
+Dept100_Name char(20) REFERENCES Dept100
+);
+
+CREATE TABLE counselor2 (
+Emp_ID varchar(80) REFERENCES Faculty100,
+Student100_ID varchar(20) REFERENCES Student100,
+PRIMARY KEY (Emp_ID , Student100_ID)
+); 
+
+CREATE TABLE teaching2 (
+Emp_ID varchar(80) REFERENCES Faculty100 PRIMARY KEY,
+course2_Code varchar(20)  REFERENCES course2,
+Semester varchar(20),
+Yr int,
+Prog varchar(20),
+Dept100_Name varchar(20) REFERENCES Dept100
+);
+
+
+INSERT INTO Dept100 VALUES ('CSE', 'A201','9567892498');
+INSERT INTO Dept100 VALUES ('EIE', 'A202','9567892499');
+INSERT INTO Dept100 VALUES ('AERO', 'A203','9567892100');
+INSERT INTO Dept100 VALUES ('AUTOMOBILE', 'A204','9567892101');
+INSERT INTO Dept100 VALUES ('IT', 'A205','9567892102');
+INSERT INTO Dept100 VALUES ('BBM', 'N100','9567922684');
+INSERT INTO Dept100 VALUES ('ECE','N101','9567922685');
+INSERT INTO Dept100 VALUES ('BSC', 'N102','9567922686');
+INSERT INTO Dept100 VALUES ('MEC', 'N103','9567922687');
+INSERT INTO Dept100 VALUES ('CHEM', 'N104','9567922688');
+INSERT INTO Faculty100 VALUES ('13503','Keerthi','CSE','1000000','1-FEB-2015'); 
+INSERT INTO Faculty100 VALUES ('13058','Sindhu','CSE','2000000','1-FEB-2013'); 
+INSERT INTO Faculty100 VALUES ('13067','Krishna','CSE','3000000','1-MAR-2014'); 
+INSERT INTO Faculty100 VALUES ('13502','Bhavana','CSE','4000000','1-MAR-2015'); 
+INSERT INTO Faculty100 VALUES ('13061','Amrutha','CSE','5000000','1-MAR-2016'); 
+INSERT INTO Faculty100 VALUES ('13132','Rachana','CSE','6000000','1-MAR-2017'); 
+INSERT INTO Faculty100 VALUES ('12501','Bharath','ECE','7000000','1-APR-2018'); 
+INSERT INTO Faculty100 VALUES ('10000','Pavani','ECE','8000000','1-MAY-2009'); 
+INSERT INTO Faculty100 VALUES ('20000','Madhavi','ECE','9000000','1-MAY-2010'); 
+INSERT INTO Faculty100 VALUES ('10001','Manoj','ECE','7000000','1-MAY-2011'); 
+INSERT INTO Student100 VALUES ('50005','Sujith','Male','MEC','10-MAY-2031'); 
+INSERT INTO Student100 VALUES ('50006','Narayan','Male','CSE','11-SEPT-2001'); 
+INSERT INTO Student100 VALUES ('50007','Manjula','Female','BBM','12-SEPT-2011'); 
+INSERT INTO Student100 VALUES ('50008','Sana','Female','ECE','13-NOV-2011'); 
+INSERT INTO Student100 VALUES ('50009','Penny','Female','CHEM','4-NOV-2011'); 
+INSERT INTO Student100 VALUES ('50010','Sheldon','Male','IT','15-MAR-2011'); 
+INSERT INTO Student100 VALUES ('50011','Rebecca','Female','AERO','16-OCT-2011'); 
+INSERT INTO Student100 VALUES ('50012','Sana','Female','AUTOMOBILE','18-OCT-2001'); 
+INSERT INTO Student100 VALUES ('50013','Jack','Male','EIE','13-JAN-2003'); 
+INSERT INTO Student100 VALUES ('50014','Ross','Male','CHEM','16-JAN-2004'); 
+INSERT INTO course2 VALUES ('C390','DBMS',1,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C391','OS',2,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C392','COA',3,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C393','DS',4,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C394','OOPS',5,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C395','JAVA',6,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C396','DSP',7,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C397','ELECTROCHEM',8,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C398','ALGORITHMS',9,'S5',2015,'CSE'); 
+INSERT INTO course2 VALUES ('C399','CIR',10,'S5',2015,'CSE'); 
+INSERT INTO counselor2 VALUES ('13503','50005'); 
+INSERT INTO counselor2 VALUES ('13502','50006'); 
+INSERT INTO counselor2 VALUES ('13067','50007'); 
+INSERT INTO counselor2 VALUES ('13058','50008'); 
+INSERT INTO counselor2 VALUES ('13132','50009'); 
+INSERT INTO counselor2 VALUES ('12501','50010'); 
+INSERT INTO counselor2 VALUES ('10000','50011');
+INSERT INTO counselor2 VALUES ('20000','50012'); 
+INSERT INTO counselor2 VALUES ('13061','50013'); 
+INSERT INTO counselor2 VALUES ('10001','50014');  
+INSERT INTO teaching2 VALUES ('10001','C399','S5',2015,'PROG1','CSE');
+INSERT INTO teaching2 VALUES ('13503','C393','S5',2013,'PROG2','CSE')
+
+select * from Faculty100;
+select * from Student100;
+select * from counselor2;
+select * from course2;
+select * from teaching2;
+
+/*Alter the table “Faculty “to add a new column “desg”. 
+Possible desgs are Professor, Assistant Professor, Lecturer and Teaching assistant.*/
+alter table Faculty100 add desg varchar(20);
+
+/*Populate the table to include the desg values*/
+INSERT INTO Faculty100 VALUES ('13503','Keerthi','CSE','1000000','1-FEB-2015','PROFESSOR'); 
+INSERT INTO Faculty100 VALUES ('13058','Sindhu','CSE','2000000','1-FEB-2013','ASST PROF'); 
+INSERT INTO Faculty100 VALUES ('13067','Krishna','CSE','3000000','1-MAR-2014','LECTURER'); 
+INSERT INTO Faculty100 VALUES ('13502','Bhavana','CSE','4000000','1-MAR-2015','TEACHING ASST'); 
+INSERT INTO Faculty100 VALUES ('13061','Amrutha','CSE','5000000','1-MAR-2016','PROFESSOR'); 
+INSERT INTO Faculty100 VALUES ('13132','Rachana','CSE','6000000','1-MAR-2017','LECTURER'); 
+INSERT INTO Faculty100 VALUES ('12501','Bharath','ECE','7000000','1-APR-2018','TEACHING ASST'); 
+INSERT INTO Faculty100 VALUES ('10000','Pavani','ECE','8000000','1-MAY-2009','LECTURER'); 
+INSERT INTO Faculty100 VALUES ('20000','Madhavi','ECE','9000000','1-MAY-2010','ASST PROF'); 
+INSERT INTO Faculty100 VALUES ('10001','Manoj','ECE','7000000','1-MAY-2011','PROFESSOR'); 
+select * from Faculty100;
+
+/*Retrieve the number of Professors in ECE department.*/
+select count(*) from Faculty100 where Dept100_Name='ECE' and desg='PROFESSOR';
+
+/*Retrieve the number of Assistant Professors, departmentwise.*/
+select count(*) from Faculty100 where desg='ASST PROF' group by Dept100_Name ;
+
+/*Average salary of each department*/
+select avg(Salary) from Faculty100 group by Dept100_Name;
+
+/*Average salary of each department, designation -wise*/
+select avg(Salary) from Faculty100 group by Dept100_Name,desg;
+
+/*Insert a few faculty members with salary as “null”*/
+INSERT INTO Faculty100 VALUES ('13001','Anusha','MEC',NULL,'2-OCT-1995');
+INSERT INTO Faculty100 VALUES ('13002','Preethi','CSE',NULL,'1-FEB-2015'); 
+
+select * from Faculty100;
+
+/*Retrieve the faculty members with “null” salary*/
+select Emp_ID,Emp_Name from Faculty100 where Salary is NULL;
+
+/*Average salary of each department,Compare the response with that of QN (5).Why so?*/
+select avg(Salary) from Faculty100 group by Dept100_Name;
+
+//Tuple which have 'NULL' salary isnot considered so the average salary remains the same.
+
+/*Retrieve the average salary of each department only if average salary is greater than 5,000*/
+ select avg(Salary) from Faculty100 where Salary>5000 group by Dept100_Name;
+
+/*Retrieve the department wise average salary for assistant professors if average salary is greater than 5,000.*/
+  select avg(Salary) from Faculty100  where desg='ASST PROF' group by Dept100_Name having avg(Salary)>5000;
+
+/*If every teaching assistant is given a 15% salary hike,new salary?*/
+  select 0.15*Salary from Faculty100 where desg='TEACHING ASST';
+
+/*Teaching assistant are given a 15% salary hike, if their current salary is less than 10,000. Update and retrieve new salaries. */
+  update Faculty100 set Salary=0.15*Salary where Salary<10000;
+  select * from Faculty100;
+
+/*What is the difference in Qn(9) and Qn(10)?*/
+
+  //In 10th question no constraints are present but in 9th question there are constraints.
+
+ /*Find the courses offered by each faculty using “where” clause.*/
+
+  select f.Emp_ID,t.course2_Code from Faculty100 as f,teaching2 as t where f.Emp_ID=t.Emp_ID; 
+
+/*Find the courses offered by each faculty using “natural join”*/
+
+ select Emp_ID,course2_Code from Faculty100 natural join teaching2; 
+
+/*Find the names of all faculty whose salary is greater than at least one faculty in the ‘CSE’  department.*/
+
+ select distinct a.Emp_Name from Faculty100 as a,Faculty100 as b where a.Salary>b.Salary and b.Dept100_Name='CSE';
+
+select * from Dept100;
+select * from Faculty100;
+select a.Emp_Name from Faculty100 as a,Faculty100 as b where a.Salary>b.Salary and b.Dept100_Name='CSE' ;
+
+/*Retrieve the students whose name has exactly 6 alphabets.*/
+
+select * from  Student100 where Student100_Name like '______';
+
+/*Retrieve the students in alphabetical order.*/
+
+select * from Student100 order by Student100_Name;
+
+/*Retrieve the students in alphabetical order with decreasing order of admission year*/
+
+select Student100_Name from Student100 order by Student100_Name,Doj desc;

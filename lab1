@@ -1,0 +1,146 @@
+﻿CREATE TABLE Depart1 (
+Depart1_Name varchar(80) PRIMARY KEY,
+Depart1_Room varchar(10),
+ContactNo varchar(20)
+);
+
+CREATE TABLE Fac12 (
+Emp_ID varchar(80) PRIMARY KEY,
+Emp_Name char(20),
+Depart1_Name varchar(80) REFERENCES Depart1,
+Salary int,
+Doj date
+);
+
+CREATE TABLE Student12 (
+Student12_ID varchar(20) PRIMARY KEY,
+Student12_Name char(30),
+Gender char(10),
+Depart1_Name varchar(20) REFERENCES Depart1,
+Doj date
+);
+
+CREATE TABLE Course12 (
+Course12_Code varchar(20) PRIMARY KEY,
+Course12_Title varchar(20),
+Credit int,
+Semester varchar(10),
+Yr int,
+Depart1_Name char(20) REFERENCES Depart1
+);
+
+CREATE TABLE Counselor12 (
+Emp_ID varchar(80) REFERENCES Fac12,
+Student12_ID varchar(20) REFERENCES Student12,
+PRIMARY KEY (Emp_ID , Student12_ID)
+); 
+
+CREATE TABLE Teaching12 (
+Emp_ID varchar(80) REFERENCES Fac12 PRIMARY KEY,
+Course12_Code varchar(20)  REFERENCES Course12,
+Semester varchar(20),
+Yr int,
+Prog varchar(20),
+Depart1_Name varchar(20) REFERENCES Depart1
+);
+
+
+INSERT INTO Depart1 VALUES ('CSE', 'A201','9567892498');
+INSERT INTO Depart1 VALUES ('EIE', 'A202','9567892499');
+INSERT INTO Depart1 VALUES ('AERO', 'A203','9567892100');
+INSERT INTO Depart1 VALUES ('AUTOMOBILE', 'A204','9567892101');
+INSERT INTO Depart1 VALUES ('IT', 'A205','9567892102');
+INSERT INTO Depart1 VALUES ('BBM', 'N100','9567922684');
+INSERT INTO Depart1 VALUES ('ECE','N101','9567922685');
+INSERT INTO Depart1 VALUES ('BSC', 'N102','9567922686');
+INSERT INTO Depart1 VALUES ('MEC', 'N103','9567922687');
+INSERT INTO Depart1 VALUES ('CHEM', 'N104','9567922688');
+INSERT INTO Fac12 VALUES ('13503','Keerthi','CSE','1000000','1-FEB-2015'); 
+INSERT INTO Fac12 VALUES ('13058','Sindhu','CSE','2000000','1-FEB-2013'); 
+INSERT INTO Fac12 VALUES ('13067','Krishna','CSE','3000000','1-MAR-2014'); 
+INSERT INTO Fac12 VALUES ('13502','Bhavana','CSE','4000000','1-MAR-2015'); 
+INSERT INTO Fac12 VALUES ('13061','Amrutha','CSE','5000000','1-MAR-2016'); 
+INSERT INTO Fac12 VALUES ('13132','Rachana','CSE','6000000','1-MAR-2017'); 
+INSERT INTO Fac12 VALUES ('12501','Bharath','ECE','7000000','1-APR-2018'); 
+INSERT INTO Fac12 VALUES ('10000','Pavani','ECE','8000000','1-MAY-2009'); 
+INSERT INTO Fac12 VALUES ('20000','Madhavi','ECE','9000000','1-MAY-2010'); 
+INSERT INTO Fac12 VALUES ('10001','Manoj','ECE','7000000','1-MAY-2011'); 
+INSERT INTO Student12 VALUES ('50005','Sujith','Male','MEC','10-MAY-2031'); 
+INSERT INTO Student12 VALUES ('50006','Narayan','Male','CSE','11-SEPT-2001'); 
+INSERT INTO Student12 VALUES ('50007','Manjula','Female','BBM','12-SEPT-2011'); 
+INSERT INTO Student12 VALUES ('50008','Sana','Female','ECE','13-NOV-2011'); 
+INSERT INTO Student12 VALUES ('50009','Penny','Female','CHEM','4-NOV-2011'); 
+INSERT INTO Student12 VALUES ('50010','Sheldon','Male','IT','15-MAR-2011'); 
+INSERT INTO Student12 VALUES ('50011','Rebecca','Female','AERO','16-OCT-2011'); 
+INSERT INTO Student12 VALUES ('50012','Sana','Female','AUTOMOBILE','18-OCT-2001'); 
+INSERT INTO Student12 VALUES ('50013','Jack','Male','EIE','13-JAN-2003'); 
+INSERT INTO Student12 VALUES ('50014','Ross','Male','CHEM','16-JAN-2004'); 
+INSERT INTO Course12 VALUES ('C390','DBMS',1,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C391','OS',2,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C392','COA',3,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C393','DS',4,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C394','OOPS',5,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C395','JAVA',6,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C396','DSP',7,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C397','ELECTROCHEM',8,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C398','ALGORITHMS',9,'S5',2015,'CSE'); 
+INSERT INTO Course12 VALUES ('C399','CIR',10,'S5',2015,'CSE'); 
+INSERT INTO Counselor12 VALUES ('13503','50005'); 
+INSERT INTO Counselor12 VALUES ('13502','50006'); 
+INSERT INTO Counselor12 VALUES ('13067','50007'); 
+INSERT INTO Counselor12 VALUES ('13058','50008'); 
+INSERT INTO Counselor12 VALUES ('13132','50009'); 
+INSERT INTO Counselor12 VALUES ('12501','50010'); 
+INSERT INTO Counselor12 VALUES ('10000','50011');
+INSERT INTO Counselor12 VALUES ('20000','50012'); 
+INSERT INTO Counselor12 VALUES ('13061','50013'); 
+INSERT INTO Counselor12 VALUES ('10001','50014');  
+INSERT INTO Teaching12 VALUES ('10001','C399','S5',2015,'PROG1','CSE');
+
+select * from Fac12;
+select * from Student12;
+select * from Counselor12;
+select * from Course12;
+select * from Teaching12;
+
+/*Retrieve the departments of the University.*/
+select Depart1_name from Depart1;
+
+/*Retrieve the Faculty members of CSE department*/
+select Emp_Name from Fac12 where Depart1_Name='CSE';
+
+/*Retrieve all the 4-credit courses*/
+select Course12_Code,Course12_Title from Course12 where Credit=4;
+
+/*How many students got Admission in the year 2015*/
+select Course12_Code,Course12_Title,Yr from Course12 where Yr='2015';
+
+/*Find out the counselor of the student whose id is ‘50008’*/
+select * from Counselor12 where Student12_ID='50008';
+
+/*Find the largest salary paid by the University*/
+select max(salary) from Fac12;
+
+/*Add a new attribute “Exam Slot” in Courses table*/
+alter table Course12 add Exam_slot varchar(20);
+
+/*What are the courses offered by ECE faculty*/
+update Course12 set Depart1_Name='ECE' where Course12_Code='C399';
+select * from Course12 where Depart1_Name='ECE';
+
+/*List the courses offered in both 2015 odd semester and in 2013 even semester*/
+(select distinct * from Course12 where Yr=2015 and Semester='S1')union(select * from Course12 where Yr=2013 and Semester='S2');
+
+/*List the faculty members who are working as Counselors also*/
+select distinct Emp_ID from Counselor12 natural join Fac12;
+
+/*Change the attribute name “Dept_Room” to “Room_No”; and check whether the change is reflected*/
+select Depart1_Room as Room_No from Depart1;
+select * from Depart1;
+
+/*Retrieve ‘CSE’ faculty members along with the courses they have offered courses in 2012 even semester.*/
+select * from Fac12 natural join Course12 where Depart1_Name='CSE' and Yr=2012 and Semester='S2';
+
+
+/*Retrieve the faculty members who earn a salary in the range 25,000-50,000*/
+select * from Fac12 where Salary > 25000 and Salary < 50000;

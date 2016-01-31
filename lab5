@@ -1,0 +1,170 @@
+﻿CREATE TABLE Depart1 (
+Depart1_Name varchar(80) PRIMARY KEY,
+Depart1_Room varchar(10),
+ContactNo varchar(20)
+);
+
+CREATE TABLE Fac12 (
+Emp_ID varchar(80) PRIMARY KEY,
+Emp_Name char(20),
+Depart1_Name varchar(80) REFERENCES Depart1,
+Salary int,
+Doj date
+);
+
+CREATE TABLE Student12 (
+Student12_ID varchar(20) PRIMARY KEY,
+Student12_Name char(30),
+Gender char(10),
+Depart1_Name varchar(20) REFERENCES Depart1,
+Doj date
+);
+
+CREATE TABLE Takes (
+Student12_ID varchar(20) REFERENCES Student12,
+Course101_Code varchar(20) REFERENCES Course101,
+PRIMARY KEY(Student12_ID)
+);
+ 
+CREATE TABLE Course101 (
+Course101_Code varchar(20) PRIMARY KEY,
+Course101_Title varchar(20),
+Credit int,
+Semester varchar(10),
+Yr int,
+Depart1_Name char(20) REFERENCES Depart1
+);
+
+CREATE TABLE Counselor12 (
+Emp_ID varchar(80) REFERENCES Fac12,
+Student12_ID varchar(20) REFERENCES Student12,
+PRIMARY KEY (Emp_ID , Student12_ID)
+); 
+
+CREATE TABLE Teaching12 (
+Emp_ID varchar(80) REFERENCES Fac12 PRIMARY KEY,
+Course101_Code varchar(20)  REFERENCES Course101,
+Semester varchar(20),
+Yr int,1. Retrieve the Faculty members of CSE department who took a course for ECE students.
+Prog varchar(20),
+Depart1_Name varchar(20) REFERENCES Depart1
+);
+
+
+INSERT INTO Depart1 VALUES ('CSE', 'A201','9567892498');
+INSERT INTO Depart1 VALUES ('EIE', 'A202','9567892499');
+INSERT INTO Depart1 VALUES ('AERO', 'A203','9567892100');
+INSERT INTO Depart1 VALUES ('AUTOMOBILE', 'A204','9567892101');
+INSERT INTO Depart1 VALUES ('IT', 'A205','9567892102');
+INSERT INTO Depart1 VALUES ('BBM', 'N100','9567922684');
+INSERT INTO Depart1 VALUES ('ECE','N101','9567922685');
+INSERT INTO Depart1 VALUES ('BSC', 'N102','9567922686');
+INSERT INTO Depart1 VALUES ('MEC', 'N103','9567922687');
+INSERT INTO Depart1 VALUES ('CHEM', 'N104','9567922688');
+INSERT INTO Fac12 VALUES ('13503','Keerthi','CSE','1000000','1-FEB-2015'); 
+INSERT INTO Fac12 VALUES ('13058','Sindhu','CSE','2000000','1-FEB-2013'); 
+INSERT INTO Fac12 VALUES ('13067','Krishna','CSE','3000000','1-MAR-2014'); 
+INSERT INTO Fac12 VALUES ('13502','Bhavana','CSE','4000000','1-MAR-2015'); 
+INSERT INTO Fac12 VALUES ('13061','Amrutha','CSE','5000000','1-MAR-2016'); 
+INSERT INTO Fac12 VALUES ('13132','Rachana','CSE','6000000','1-MAR-2017'); 
+INSERT INTO Fac12 VALUES ('12501','Bharath','ECE','7000000','1-APR-2018'); 
+INSERT INTO Fac12 VALUES ('10000','Pavani','ECE','8000000','1-MAY-2009'); 
+INSERT INTO Fac12 VALUES ('20000','Madhavi','ECE','9000000','1-MAY-2010'); 
+INSERT INTO Fac12 VALUES ('10001','Manoj','ECE','7000000','1-MAY-2011'); 
+INSERT INTO Student12 VALUES ('50005','Sujith','Male','MEC','10-MAY-2031'); 
+INSERT INTO Student12 VALUES ('50006','Narayan','Male','CSE','11-SEPT-2001'); 
+INSERT INTO Student12 VALUES ('50007','Manjula','Female','BBM','12-SEPT-2011'); 
+INSERT INTO Student12 VALUES ('50008','Sana','Female','ECE','13-NOV-2011'); 
+INSERT INTO Student12 VALUES ('50009','Penny','Female','CHEM','4-NOV-2011'); 
+INSERT INTO Student12 VALUES ('50010','Sheldon','Male','IT','15-MAR-2011'); 
+INSERT INTO Student12 VALUES ('50011','Rebecca','Female','AERO','16-OCT-2011'); 
+INSERT INTO Student12 VALUES ('50012','Sana','Female','AUTOMOBILE','18-OCT-2001'); 
+INSERT INTO Student12 VALUES ('50013','Jack','Male','EIE','13-JAN-2003'); 
+INSERT INTO Student12 VALUES ('50014','Ross','Male','CHEM','16-JAN-2004'); 
+INSERT INTO Course101 VALUES ('C390','DBMS',1,'S5',2015,'CSE'); 
+INSERT INTO Course101 VALUES ('C83','EMBEDDED',4,'S4',2009,'CSE');
+INSERT INTO Course101 VALUES ('C80','EMBEDDED',4,'S5',2010,'CSE');
+INSERT INTO Course101 VALUES ('C392','COA',3,'S5',2015,'CSE'); 
+INSERT INTO Course101 VALUES ('C393','DS',4,'S4',2009,'CSE'); 
+INSERT INTO Course101 VALUES ('C394','OOPS',5,'S5',2015,'ECE'); 
+INSERT INTO Course101 VALUES ('C395','JAVA',6,'S4',2015,'ECE'); 
+INSERT INTO Course101 VALUES ('C396','DSP',7,'S4',2015,'ECE'); 
+INSERT INTO Course101 VALUES ('C397','ELECTROCHEM',8,'S5',2015,'CSE'); 
+INSERT INTO Course101 VALUES ('C398','ALGORITHMS',9,'S5',2015,'CSE'); 
+INSERT INTO Course101 VALUES ('C399','CIR',10,'S5',2015,'CSE'); 
+INSERT INTO Counselor12 VALUES ('13503','50005'); 
+INSERT INTO Counselor12 VALUES ('13502','50006'); 
+INSERT INTO Counselor12 VALUES ('13067','50007'); 
+INSERT INTO Counselor12 VALUES ('13058','50008'); 
+INSERT INTO Counselor12 VALUES ('13132','50009'); 
+INSERT INTO Counselor12 VALUES ('12501','50010'); 
+INSERT INTO Counselor12 VALUES ('10000','50011');
+INSERT INTO Counselor12 VALUES ('20000','50012'); 
+INSERT INTO Counselor12 VALUES ('13061','50013'); 
+INSERT INTO Counselor12 VALUES ('10001','50014');  
+INSERT INTO Teaching12 VALUES ('10001','C399','S5',2015,'PROG1','CSE');
+INSERT INTO Teaching12 VALUES ('10000','C394','S5',2014,'PROG1','ECE');
+INSERT INTO Teaching12 VALUES ('13503','C396','S5',2015,'PROG2','ECE');
+INSERT INTO Takes VALUES('50005','C392');
+INSERT INTO Takes VALUES('50006','C80');
+
+
+select * from Fac12;
+select * from Student12;
+select * from Counselor12;
+select * from Course101;
+select * from Teaching12;
+
+/*1. Retrieve the Faculty members of CSE department who took a course for ECE students.*/
+select * from Fac12 where Depart1_Name='CSE' and Emp_ID in (select Emp_ID from Teaching12 where Depart1_name='ECE');
+
+/*2. Retrieve all the 4-credit courses taught in both even sem 2009 and odd sem  2010.*/
+select Course101_Code from Course101 as c where Semester='S4' and Yr=2009 and Credit=4 and exists (select Course101_Code from Course101 as d where Semester='S5' and Yr=2010 and Credit=4 and c.Course101_Code=d.Course101_Code);
+
+/*3.Retrieve all the 4-credit courses taught in even sem 2009 which are not offered in  odd sem  2010.*/
+select Course101_Code from Course101 as c where Semester='S4' and Yr=2009 and Credit=4 and not exists (select Course101_Code from Course101 as d where Semester='S5' and Yr=2010 and Credit=4 and c.Course101_Code=d.Course101_Code);
+
+/*4. Find the largest salary paid by the University.*/
+select max(salary) from (select Emp_ID,Salary from Fac12 ) as fac_total(Emp,salary);
+
+/*5. Find the minimum salary paid by the university*/
+select min(salary) from (select Emp_ID,Salary from Fac12 ) as fac_total(Emp,salary);
+
+/*6. List the faculty members who are working as Counselors also.*/
+select Emp_ID from Fac12 where Emp_ID in (select Emp_ID from Counselor12 );
+
+/*7. Find the names of all students who took at least one computer science course*/
+select Student12_ID from Student12 where Student12_ID in (select Student12_ID from Takes natural join Course101 where Depart1_Name='CSE');
+
+/*8. Find the department that has highest average salary*/
+with 
+/*9. Print the name of each instructor along with their salary and their departments average salary*/
+select Emp_Name,Depart1_Name,Salary,avg(Salary) from Fac12 group by Depart1_Name; 
+
+/*10. What is the minimum across average  salary of each department?*/
+select min(avgsal) from (select Depart1_Name,avg(Salary) from Fac12 group by Depart1_Name) as Dept_total(Emp,avgsal);
+
+/*11. Retrieve the department wise average salary for assistant professors if average salary is greater than 5,000.*/
+select min(avgsal) from (select Depart1_Name,avg(Salary) from Fac12 group by Depart1_Name) as Dept_total(Emp,avgsal);
+
+/*12. Find the names of all faculty whose salary is greater than at least one faculty in the ‘CSE’  department.*/
+select distinct a.Emp_Name,a.Salary,a.Depart1_Name from Fac12 as a , Fac12 as b where a.Salary>b.Salary and b.Depart1_Name='CSE'; 
+
+/*13.  Find the names of all students whose grade for ‘CSE 101’ is greater than at least one student in the ‘CSE’ department.*/
+Create table Grades_003(Student12_ID varchar(10) references Student12,
+                        Course_id varchar(10) ,
+                        grade char(1) not null,
+                        PRIMARY KEY(Student12_ID,Course_id));
+
+with good_stud(id) as (select Student12_ID from Grades_003 where grade <(select max(grade) from grades_003 
+where Course_id='CSE101' and Student12_ID like '%CSE%' ))
+Select Student12_Name From Student12,good_stud where Student12_ID=good_stud.id;
+
+/*14. Find the number of instructors in each department who teach a course in sem 5 2015.*/
+with instructor(id,course) as (select Emp_ID,Course_idfrom Teaching12 where Semester='S5' and Yr=2015) 
+select Depart1_Name,count(Emp_ID)from Fac12,instructor where Emp_ID=instructor.id group by Depart1_Name;
+
+/*15. List all departments along with the number of instructors in each department.*/
+select dep,count(id) from (select Depart1_Name,Emp_ID from Fac12 )as instructor(dep,id) group by dep;
+
+
