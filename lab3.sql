@@ -1,4 +1,6 @@
-﻿1)
+LAbSHEET 3
+
+1)
 
  create table Passenger
 ( Passenger_no varchar(6),
